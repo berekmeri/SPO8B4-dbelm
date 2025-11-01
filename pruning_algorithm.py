@@ -21,7 +21,11 @@ class Graph:
     nodes: dict[str, Node]
     edges: List[Edge]  # irányított
     
-    
+def has_local_pred(v: Node) -> bool:
+    return bool(v.local_preds)
+
+def join_key_containment(src: Node, dst: Node) -> bool:
+    return dst.join_keys.issubset(src.join_keys)
 
 def prune_transfers(g: Graph) -> None:
     # init
