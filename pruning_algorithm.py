@@ -27,8 +27,16 @@ def has_local_pred(v: Node) -> bool:
 def join_key_containment(src: Node, dst: Node) -> bool:
     return dst.join_keys.issubset(src.join_keys)
 
+def estimate_selectivity(preds: List[Tuple[str,str,object]]) -> float:
+    if not preds: return 1.0
+    s = 1.0
+    for col, op, val in preds:
+        if op == '=': s *= 0.1
+        elif op.lower() == 'in': s *= min(0.2, max(0.02, 0.02*len(val)))
+        elif op in ('<','>','<=','>=','between'): s *= 0.5
+    return max(0.0, min(1.0, s))
+
 def predicate_containment(src_node: Node, dst_node: Node) -> bool:
-    # Heurisztika: ha dst szelektivitása <= src szelektivitása, tekintsük tartalmazásnak
     s_src = estimate_selectivity(src_node.local_preds)
     s_dst = estimate_selectivity(dst_node.local_preds)
     return s_dst <= s_src
