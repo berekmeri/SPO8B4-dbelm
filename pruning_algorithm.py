@@ -41,6 +41,7 @@ def predicate_containment(src_node: Node, dst_node: Node) -> bool:
     s_dst = estimate_selectivity(dst_node.local_preds)
     return s_dst <= s_src
 
+
 def prune_transfers(g: Graph) -> None:
     # init
     for v in g.nodes.values():
