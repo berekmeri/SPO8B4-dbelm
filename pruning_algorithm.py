@@ -124,9 +124,9 @@ g_line = Graph(nodes=nodes_line, edges=edges_line)
 
 # --- Gyémánt (A -> B, A -> C, B -> D, C -> D)
 nodes_diamond = {
-    "A": Node(id="A", join_keys=frozenset({"a_id"}), local_preds=[("a_id","IN",{1,2,3,4})]),
+    "A": Node(id="A", join_keys=frozenset({"a_id", "c_id"}), local_preds=[("c_id","IN",{1,2,3,4})]),
     "B": Node(id="B", join_keys=frozenset({"a_id","b_id"}), local_preds=[("b_id",">",1000)]),
-    "C": Node(id="C", join_keys=frozenset({"a_id","c_id"}), local_preds=[]),
+    "C": Node(id="C", join_keys=frozenset({"a_id","c_id"}), local_preds=[("c_id","IN",{1,2,3})]),
     "D": Node(id="D", join_keys=frozenset({"b_id","c_id"}), local_preds=[]),
 }
 edges_diamond = [Edge("A","B"), Edge("A","C"), Edge("B","D"), Edge("C","D")]
